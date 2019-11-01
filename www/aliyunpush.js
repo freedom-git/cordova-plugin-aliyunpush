@@ -3,15 +3,12 @@ var exec = require('cordova/exec');
 var AliyunPush = {
     registered: false,
     errorCallback: function(msg) {
-        console.log('AliyunPush Callback Error: ' + msg)
+        console.log('AliyunPush Callback Error1: ' + msg)
     },
 
     callNative: function(name, args, successCallback, errorCallback) {
-        if (errorCallback) {
-            cordova.exec(successCallback, errorCallback, 'AliyunPush', name, args)
-        } else {
-            cordova.exec(successCallback, this.errorCallback, 'AliyunPush', name, args)
-        }
+        errorCallback = errorCallback || this.errorCallback
+        cordova.exec(successCallback, errorCallback, 'AliyunPush', name, args)        
     },
 
     /**
@@ -94,8 +91,6 @@ var AliyunPush = {
      */
     listTags: function(successCallback, errorCallback) {
         this.callNative('listTags', [], successCallback,errorCallback)
-    },
-
-    AliyunPush: AliyunPush
+    }
 }
 module.exports = AliyunPush;
