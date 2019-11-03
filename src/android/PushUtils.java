@@ -36,7 +36,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class PushUtils {
-    public static final String NotificationChannelId = "7777777";
+    public static final String NotificationChannelId = "default";
 
 
     private static String AliyunAppKey;

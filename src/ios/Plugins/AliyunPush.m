@@ -90,7 +90,7 @@
  // 判断用户是否允许接收通知
 - (BOOL)isUserNotificationEnable {
     __block BOOL isEnable = NO;
-    __weak typeof(self) weakSelf = self;
+    __weak AliyunPush *weakSelf = self;
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0f) { // iOS版本 >=10.0 处理逻辑
         
         [[UNUserNotificationCenter currentNotificationCenter]getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
