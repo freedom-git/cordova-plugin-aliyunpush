@@ -1,5 +1,6 @@
 package com.alipush;
 
+import android.app.Application;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.NotificationChannel;
@@ -24,7 +25,8 @@ import android.util.Log;
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.CommonCallback;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
-import com.alibaba.sdk.android.push.register.HuaWeiRegister;
+import com.alibaba.sdk.android.push.huawei.HuaWeiRegister;
+import com.alibaba.sdk.android.push.register.GcmRegister;
 import com.alibaba.sdk.android.push.register.MiPushRegister;
 import com.alibaba.sdk.android.push.register.OppoRegister;
 
@@ -41,6 +43,11 @@ public class PushUtils {
 
     private static String AliyunAppKey;
     private static String AliyunAppSecret;
+
+    // FCM辅助通道
+    private static String FcmSendId;
+    private static String FcmApplicationId;
+
     // 小米辅助通道
     private static String XiaoMiAppId = "2882303761518018487";
     private static String XiaoMiAppKey = "5371801843487";
@@ -74,6 +81,9 @@ public class PushUtils {
 
         AliyunAppKey=appInfo.metaData.get("AliyunAppKey")+"";
         AliyunAppSecret=appInfo.metaData.get("AliyunAppSecret")+"";
+
+        FcmSendId =appInfo.metaData.get("FcmSendId")+"";
+        FcmApplicationId=appInfo.metaData.get("FcmApplicationId")+"";
 
 
         XiaoMiAppId =appInfo.metaData.get("XiaoMiAppId")+"";
@@ -143,10 +153,10 @@ public class PushUtils {
             MiPushRegister.register(applicationContext, XiaoMiAppId, XiaoMiAppKey);
         }
         // 注册方法会自动判断是否支持华为系统推送，如不支持会跳过注册。
-        HuaWeiRegister.register(applicationContext);
+        HuaWeiRegister.register((Application) applicationContext);
 
         // GCM/FCM辅助通道注册
-        // GcmRegister.register(this, sendId, applicationId);
+        // GcmRegister.register((Application) applicationContext, FcmSendId, FcmApplicationId);
         // //sendId/applicationId为步骤获得的参数
         // OPPO通道注册
         if(OPPOAppKey!=null&&OPPOAppSecret!=null) {
