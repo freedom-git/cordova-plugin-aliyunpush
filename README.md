@@ -2,95 +2,46 @@
 
 ## Install
 
-> 注意：
-> - 应用的包名一定要和 APP_KEY 对应应用的包名一致，否则推送服务无法注册成功。
-> - 在使用 8 或以上版本的 Xcode 调试 iOS 项目时，需要先在项目配置界面的 Capabilities 中打开 Push Notifications 开关。
-> - 如没有注册小米，华为，OPPO等通道不配置即可
-> - 后台推送时可在ExtParameters参数中写入app跳转路径如ExtParameters:{url:'https://help.aliyun.com'},插件会把ExtParameters解析到push content中
-> - 后台推送时 AndroidOpenType设置为APPLICATION：打开应用 默认值
-> - 如项目中已存在 Application对象，安装完插件后请替换AndroidManifest.xml/application标签中属性android:name="com.alipush.PushApplication" 已有的Application类，然后在已有Application类onCreate() 钩子里初始化推送服务   
-```
-initPushService(this)  
-```
 
 - 通过 Cordova Plugins 安装，要求 Cordova CLI 5.0+：
 
   ```shell
-  cordova plugin add https://github.com/442623641/cordova-plugin-aliyunpush.git
-  ionic cordova build android --prod
+  cordova plugin add cordova-plugin-aliyunpush
   ```
 
-- 或下载到本地安装：
-  ```shell
-  cordova plugin add Your_Plugin_Path 
-  ```
-修改项目级目录下build.gradle（{project}/build.gradle）：
-添加maven（低版本gradle，可能会有问题）
-```
-  maven {
-    url 'http://maven.aliyun.com/nexus/content/repositories/releases/'
-  }
-```
-```
-  buildscript {
-    repositories {
-    +  maven {
-    +    url 'http://maven.aliyun.com/nexus/content/repositories/releases/'
-    +  }
-  }
-
-  allprojects {
-    repositories {
-      +maven {
-      +  url 'http://maven.aliyun.com/nexus/content/repositories/releases/'
-      +}
-    }
-  }
-```
-如cordova build时出错请打开AndroidManifest.xml手动维护，修正多余标签属性
-
-## Configuration
-
-This plugin has several configuration options that can be set in `config.xml`.
-
-### Android and iOS Preferences
-
-Preferences available for both iOS and Android
+## 注意事项
+* 安卓默认通道名“default”，安卓8以上推送时需要指定通道才能收到
+* ios阿里云插件版本1.9.9
+* 目前只集成了华为通道
 
 ### Android Preferences
 
-- 对应Android系统推送，如果需要支持华为、小米、Google FCM（原GCM）系统通道，请在此页面配置对应的参数信息。可以根据需要配置一种或多种厂商辅助通道。
-- [阿里云推送官方文档](https://help.aliyun.com/document_detail/92837.html?spm=a2c4g.11174283.6.637.52eb6d16cxZ6zi)
-
-<img src="http://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/assets/pic/92837/cn_zh/1538961570959/%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE.png" width ="70%" height="70%" div align="center" />
-
-> - AliyunAppKey:阿里云appKey
-> - AliyunAppSecret:阿里云appSecret
-> - XiaoMiAppId:可不配置，小米通道AppId，如已注册，需在阿里云后台推送配置中配置
-> - XiaoMiAppKey:可不配置，小米通道AppKey，如已注册，需在阿里云后台推送配置中配置
-> - OPPOAppKey:可不配置，OPPO通道AppKey，如已注册，需在阿里云后台推送配置中配置
-> - OPPOAppSecret可不配置，OPPO通道AppSecret，如已注册，需在阿里云后台推送配置中配置
 ```xml
-<config-file parent="/manifest/application" target="AndroidManifest.xml" xmlns:android="http://schemas.android.com/apk/res/android">
-    <meta-data android:name="AliyunAppKey" android:value="25532868" />
-    <meta-data android:name="AliyunAppSecret" android:value="28688f0fba136fcbb8a90c0a78b2cc83" />
-    <meta-data android:name="XiaoMiAppId" android:value="2868303761518018487" />
-    <meta-data android:name="XiaoMiAppKey" android:value="2868801843487" />
-    <meta-data android:name="OPPOAppKey" android:value="286856813b8745928c2102c20dd49fde" />
-    <meta-data android:name="OPPOAppSecret" android:value="2868c44b4eee471097243658679910d1" />
+<edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
+            <application android:name="com.alipush.PushApplication" />
+</edit-config>
+<config-file parent="/manifest/application" target="app/src/main/AndroidManifest.xml" xmlns:android="http://schemas.android.com/apk/res/android">
+            <meta-data android:name="AliyunAppKey" android:value="XXXXXX" />
+            <meta-data android:name="AliyunAppSecret" android:value="XXXXXX" />
+            <meta-data  android:name="com.huawei.hms.client.appid" android:value="appid=XXXXX" />
+            <activity android:name="com.alipush.PopupPushActivity" android:exported="true" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            <receiver android:name="com.alipush.PushMessageReceiver" android:exported="false">
+                <intent-filter>
+                    <action android:name="com.alibaba.push2.action.NOTIFICATION_OPENED" />
+                </intent-filter>
+                <intent-filter>
+                    <action android:name="com.alibaba.push2.action.NOTIFICATION_REMOVED" />
+                </intent-filter>
+                <intent-filter>
+                    <action android:name="com.alibaba.sdk.android.push.RECEIVE" />
+                </intent-filter>
+            </receiver>
 </config-file>
 ```
 ### IOS Preferences
 ```xml
-  <edit-config file="*AliyunEmasServices-Info.plist" mode="merge" target="emas.appKey">
-    <string>44342758</string>
-  </edit-config>
-  <edit-config file="*AliyunEmasServices-Info.plist" mode="merge" target="emas.appSecret">
-    <string>7edda2aee310aef6803c46555d8de198</string>
-  </edit-config>
-  <edit-config file="*AliyunEmasServices-Info.plist" mode="merge" target="emas.bundleId">
-    <string>com.ionic.app</string>
-  </edit-config>
+<!-- 需要先将阿里云下载得到的AliyunEmasServices-Info.plist文件放置在resources/ios/plist/目录下 -->
+<resource-file src="resources/ios/plist/AliyunEmasServices-Info.plist" />
 ```
 
 
