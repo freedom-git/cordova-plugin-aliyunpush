@@ -48,6 +48,10 @@ var AliyunPush = {
      * @return {void} 
      */
     bindAccount: function(account, successCallback, errorCallback) {
+        if(!account){
+            console.error('account can not be empty')
+            return;
+        }
         this.callNative('bindAccount', [account], successCallback, errorCallback);
     },
 

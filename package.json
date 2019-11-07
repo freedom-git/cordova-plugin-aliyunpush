@@ -1,7 +1,7 @@
 {
-  "name": "cordova-plugin-aliyunpush",
-  "version": "1.0.0",
-  "description": "## Install",
+  "name": "@freedom_sky/cordova-plugin-aliyunpush",
+  "version": "1.0.1",
+  "description": "Cordova Push Plugin,use Aliyun SDK",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

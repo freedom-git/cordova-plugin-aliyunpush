@@ -6,7 +6,7 @@
 - 通过 Cordova Plugins 安装，要求 Cordova CLI 5.0+：
 
   ```shell
-  cordova plugin add cordova-plugin-aliyunpush
+cordova plugin add @freedom_sky/cordova-plugin-aliyunpush
   ```
 
 ## 注意事项
