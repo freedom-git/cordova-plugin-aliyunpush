@@ -10,9 +10,10 @@ cordova plugin add @freedom_sky/cordova-plugin-aliyunpush
   ```
 
 ## 注意事项
-* 安卓默认通道名“default”，安卓8以上推送时需要指定通道才能收到
+* 安卓默认通道名“-1”，安卓8以上推送时需要指定通道才能收到
 * ios阿里云插件版本1.9.9
-* 目前只集成了华为通道
+* 目前只集成了华为、小米通道
+* 安卓9以上需要动态获取READ_PHONE_STATE权限
 
 ### Android Preferences
 
@@ -21,8 +22,10 @@ cordova plugin add @freedom_sky/cordova-plugin-aliyunpush
             <application android:name="com.alipush.PushApplication" />
 </edit-config>
 <config-file parent="/manifest/application" target="app/src/main/AndroidManifest.xml" xmlns:android="http://schemas.android.com/apk/res/android">
-            <meta-data android:name="AliyunAppKey" android:value="XXXXXX" />
-            <meta-data android:name="AliyunAppSecret" android:value="XXXXXX" />
+            <meta-data android:name="AliyunAppKey" android:value="value=XXXXXX" />
+            <meta-data android:name="AliyunAppSecret" android:value="value=XXXXXX" />
+            <meta-data android:name="XiaoMiAppId" android:value="value=XXXX" />
+            <meta-data android:name="XiaoMiAppKey" android:value="value=XXXX" />
             <meta-data  android:name="com.huawei.hms.client.appid" android:value="appid=XXXXX" />
             <activity android:name="com.alipush.PopupPushActivity" android:exported="true" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
             <receiver android:name="com.alipush.PushMessageReceiver" android:exported="false">

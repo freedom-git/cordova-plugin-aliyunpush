@@ -38,23 +38,22 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class PushUtils {
-    public static final String NotificationChannelId = "default";
+    public static final String NotificationChannelId = "-1";
 
 
     private static String AliyunAppKey;
     private static String AliyunAppSecret;
 
     // FCM辅助通道
-    private static String FcmSendId;
-    private static String FcmApplicationId;
-
+    // private static String FcmSendId;
+    // private static String FcmApplicationId;
     // 小米辅助通道
-    private static String XiaoMiAppId = "2882303761518018487";
-    private static String XiaoMiAppKey = "5371801843487";
+    private static String XiaoMiAppId;
+    private static String XiaoMiAppKey;
 
     // OPPO辅助通道
-    private static String OPPOAppKey = "7ac256813b8745928c2102c20dd49fde";
-    private static String OPPOAppSecret = "9b4ac44b4eee471097243658679910d1";
+    private static String OPPOAppKey = "";
+    private static String OPPOAppSecret = "";
 
     private SharedPreferences preference;
 
@@ -79,18 +78,18 @@ public class PushUtils {
     private static void  getConfig(final Context applicationContext) throws PackageManager.NameNotFoundException {
         ApplicationInfo appInfo = applicationContext.getPackageManager().getApplicationInfo(applicationContext.getPackageName(), PackageManager.GET_META_DATA);
 
-        AliyunAppKey=appInfo.metaData.get("AliyunAppKey")+"";
-        AliyunAppSecret=appInfo.metaData.get("AliyunAppSecret")+"";
+        AliyunAppKey= String.valueOf(appInfo.metaData.get("AliyunAppKey")).split("=")[1];
+        AliyunAppSecret=String.valueOf(appInfo.metaData.get("AliyunAppSecret")).split("=")[1];
 
-        FcmSendId =appInfo.metaData.get("FcmSendId")+"";
-        FcmApplicationId=appInfo.metaData.get("FcmApplicationId")+"";
+        // FcmSendId =appInfo.metaData.get("FcmSendId")+"";
+        // FcmApplicationId=appInfo.metaData.get("FcmApplicationId")+"";
 
 
-        XiaoMiAppId =appInfo.metaData.get("XiaoMiAppId")+"";
-        XiaoMiAppKey=appInfo.metaData.get("XiaoMiAppKey")+"";
+        XiaoMiAppId = String.valueOf(appInfo.metaData.get("XiaoMiAppId")).split("=")[1];
+        XiaoMiAppKey= String.valueOf(appInfo.metaData.get("XiaoMiAppKey")).split("=")[1];
 
-        OPPOAppKey = appInfo.metaData.get("OPPOAppKey")+"";
-        OPPOAppSecret=appInfo.metaData.get("OPPOAppSecret")+"";
+        // OPPOAppKey = appInfo.metaData.get("OPPOAppKey")+"";
+        // OPPOAppSecret=appInfo.metaData.get("OPPOAppSecret")+"";
     }
 
     /**
@@ -159,10 +158,10 @@ public class PushUtils {
         // GcmRegister.register((Application) applicationContext, FcmSendId, FcmApplicationId);
         // //sendId/applicationId为步骤获得的参数
         // OPPO通道注册
-        if(OPPOAppKey!=null&&OPPOAppSecret!=null) {
-            Log.i("OPPO Push registered", "OPPOAppKey:" + OPPOAppKey + " , OPPOAppSecret:" + OPPOAppSecret);
-            OppoRegister.register(applicationContext, OPPOAppKey, OPPOAppSecret); // appKey/appSecret在OPPO通道开发者平台获取
-        }
+        // if(OPPOAppKey!=null&&OPPOAppSecret!=null) {
+        //     Log.i("OPPO Push registered", "OPPOAppKey:" + OPPOAppKey + " , OPPOAppSecret:" + OPPOAppSecret);
+        //     OppoRegister.register(applicationContext, OPPOAppKey, OPPOAppSecret); // appKey/appSecret在OPPO通道开发者平台获取
+        // }
     }
 
     /**

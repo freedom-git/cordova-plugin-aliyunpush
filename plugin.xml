@@ -25,6 +25,10 @@
             </feature>
         </config-file>
         <framework src="build-extras.gradle" custom="true" type="gradleReference" />  
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+            <uses-permission android:name="android.permission.GET_TASKS"/>
+        </config-file>
     </platform>
     <!-- ios -->
     <platform name="ios">
