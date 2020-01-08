@@ -1,5 +1,6 @@
 package com.alipush;
 
+import android.app.AlertDialog;
 import android.app.Application;
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -19,7 +20,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationManagerCompat;
-import android.support.v7.app.AlertDialog;
+//import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.alibaba.sdk.android.push.CloudPushService;
@@ -30,6 +31,7 @@ import com.alibaba.sdk.android.push.register.GcmRegister;
 import com.alibaba.sdk.android.push.register.MiPushRegister;
 import com.alibaba.sdk.android.push.register.OppoRegister;
 
+import org.apache.cordova.LOG;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,6 +58,8 @@ public class PushUtils {
     private static String OPPOAppSecret = "";
 
     private SharedPreferences preference;
+    /** LOG TAG */
+    private static final String LOG_TAG = "== AliyunPush/PushUtils";
 
     public PushUtils(Context context) {
         this.preference =  PreferenceManager.getDefaultSharedPreferences(context) ;
@@ -221,10 +225,11 @@ public class PushUtils {
      * 请求通知权限
      */
     public void isShowNoticeDialog(Activity context,String msg) {
+        LOG.d(LOG_TAG, "isShowNoticeDialog");
         NotificationManagerCompat notification = NotificationManagerCompat.from(context);
         boolean isEnabled = notification.areNotificationsEnabled();
         if(msg==null){
-            msg="建议你开启通知权限，第一时间收到提醒";
+            msg="建议开启通知权限，第一时间收到提醒";
         }
         //未打开通知
         if (!isEnabled) {
@@ -291,8 +296,8 @@ public class PushUtils {
                         .create();
                 if(context.isFinishing())return;
                 alertDialog.show();
-                alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
-                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
             }
         },5000);
 
